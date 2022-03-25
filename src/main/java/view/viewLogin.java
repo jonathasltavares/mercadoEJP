@@ -8,6 +8,7 @@ package view;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -32,6 +33,31 @@ public class viewLogin extends javax.swing.JFrame {
     Statement st = null;
     ResultSet rs = null;
     
+    
+    public void registrarVendedor(){
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ejpmarketdb","root","");
+            String Query = "insert INTO relatorio(vendedor) select(nome) from sellers where userID = '"+idTxt.getText()+"';";
+            Statement Add = con.createStatement();
+            Add.executeUpdate(Query);
+            JOptionPane.showMessageDialog(rootPane, "login registrado");
+            con.close();
+                
+            }catch(SQLException ex){
+                System.out.println("Ocorreu um erro ao acessar o banco de dados"+ex.getMessage());
+            } catch (ClassNotFoundException ex) {
+                System.out.println("Driver do banco de dados não localizado");
+            }finally{
+                if(con!=null){
+                    try {
+                        con.close();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(viewLogin.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+        }
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -285,6 +311,7 @@ public class viewLogin extends javax.swing.JFrame {
                 st = con.createStatement();
                 rs = st.executeQuery(Query);
                 if(rs.next()){
+                    registrarVendedor();
                     new viewVenda().setVisible(true);
                     this.dispose();
                     

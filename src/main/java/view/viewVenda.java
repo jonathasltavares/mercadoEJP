@@ -29,6 +29,7 @@ public class viewVenda extends javax.swing.JFrame {
         setExtendedState(MAXIMIZED_BOTH);
         selectProducts();
         getCateg();
+        getIndiceVenda();
         
         
     }
@@ -41,6 +42,8 @@ public class viewVenda extends javax.swing.JFrame {
     int availQuant;
     int prodId;
     int newQuant;
+    int indVendas;
+    
     public void selectProducts(){
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -93,6 +96,34 @@ public class viewVenda extends javax.swing.JFrame {
         }catch (ClassNotFoundException ex) {
             System.out.println("Driver do banco de dados não localizado");
         } 
+    }
+    public void getIndiceVenda(){
+        
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ejpmarketdb","root","");
+            st = con.createStatement();
+            rs = st.executeQuery("Select count(*) from relatorio");
+            rs.next();
+            indVendas = rs.getInt(1);
+        }catch(SQLException ex){
+            System.out.println("Ocorreu um erro ao acessar o banco de dados"+ex.getMessage());
+        }catch (ClassNotFoundException ex) {
+            System.out.println("Driver do banco de dados não localizado");
+        } 
+    }
+    public void cadastrarVenda(){
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ejpmarketdb","root","");
+            String Query = "Update relatorio set valor = '"+total+"'where vendaId ='"+indVendas+"';";
+            Statement Add = con.createStatement();
+            Add.executeUpdate(Query);
+            JOptionPane.showMessageDialog(rootPane, "Venda efetuada com sucesso!"+total);
+            
+        }catch(Exception e){
+            e.printStackTrace();
+        }        
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -524,6 +555,7 @@ int i = 0;
         }else{
             notaFiscal.setText(notaFiscal.getText()+"    "+i+"              "+prodName.getText()+"         "+preco+"                "+prodQuant.getText()+"               "+prodTotal+"\n\t");
         }
+        
         totalTxt.setText("R$"+total);
         update();
     }
@@ -572,8 +604,12 @@ int i = 0;
     }//GEN-LAST:event_printBttnMouseClicked
 
     private void printBttnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printBttnActionPerformed
+
         try{
+            cadastrarVenda();
             notaFiscal.print();
+            
+            
         }catch(Exception e){
             
         }
