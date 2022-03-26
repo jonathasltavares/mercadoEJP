@@ -119,7 +119,7 @@ public class viewVenda extends javax.swing.JFrame {
             String Query = "Update relatorio set valor = '"+total+"'where vendaId ='"+indVendas+"';";
             Statement Add = con.createStatement();
             Add.executeUpdate(Query);
-            JOptionPane.showMessageDialog(rootPane, "Venda efetuada com sucesso!"+total);
+            JOptionPane.showMessageDialog(rootPane, "Venda efetuada com sucesso!");
             
         }catch(Exception e){
             e.printStackTrace();
@@ -147,8 +147,6 @@ public class viewVenda extends javax.swing.JFrame {
         clearBttn = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         printBttn = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
-        billID = new javax.swing.JTextField();
         totalTxt = new javax.swing.JLabel();
         filterBttn = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
@@ -299,22 +297,6 @@ public class viewVenda extends javax.swing.JFrame {
             }
         });
 
-        jLabel5.setFont(new java.awt.Font("Century Gothic", 1, 20)); // NOI18N
-        jLabel5.setText("ID");
-
-        billID.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        billID.setForeground(new java.awt.Color(0, 51, 51));
-        billID.addContainerListener(new java.awt.event.ContainerAdapter() {
-            public void componentRemoved(java.awt.event.ContainerEvent evt) {
-                billIDComponentRemoved(evt);
-            }
-        });
-        billID.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                billIDActionPerformed(evt);
-            }
-        });
-
         totalTxt.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         totalTxt.setText("R$");
 
@@ -354,14 +336,11 @@ public class viewVenda extends javax.swing.JFrame {
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel6)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING))
+                                    .addComponent(jLabel3))
                                 .addGap(18, 18, 18)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(billID, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(prodQuant)
-                                        .addComponent(prodName, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(prodQuant)
+                                    .addComponent(prodName, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -411,23 +390,18 @@ public class viewVenda extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(printBttn, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(43, 43, 43)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel3)
-                                    .addComponent(prodName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel6)
-                                    .addComponent(prodQuant, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addComponent(addBttn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(clearBttn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel5)
-                                .addComponent(billID, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(43, 43, 43)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(prodName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(prodQuant, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(addBttn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(clearBttn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -592,7 +566,7 @@ int i = 0;
     private void clearBttnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBttnActionPerformed
         prodName.setText("");
         prodQuant.setText("");
-        billID.setText("");
+        
     }//GEN-LAST:event_clearBttnActionPerformed
 
     private void categComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categComboActionPerformed
@@ -606,22 +580,17 @@ int i = 0;
     private void printBttnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printBttnActionPerformed
 
         try{
-            cadastrarVenda();
+           
             notaFiscal.print();
-            
+            cadastrarVenda();
+            prodName.setText("");
+            prodQuant.setText("");
+            notaFiscal.setText("");
             
         }catch(Exception e){
             
         }
     }//GEN-LAST:event_printBttnActionPerformed
-
-    private void billIDComponentRemoved(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_billIDComponentRemoved
-        // TODO add your handling code here:
-    }//GEN-LAST:event_billIDComponentRemoved
-
-    private void billIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_billIDActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_billIDActionPerformed
 
     private void filterBttnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_filterBttnMouseClicked
         // TODO add your handling code here:
@@ -668,7 +637,6 @@ int i = 0;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addBttn;
-    private javax.swing.JTextField billID;
     private javax.swing.JComboBox<String> categCombo;
     private javax.swing.JButton clearBttn;
     private javax.swing.JButton filterBttn;
@@ -676,7 +644,6 @@ int i = 0;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;

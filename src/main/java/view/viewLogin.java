@@ -41,7 +41,7 @@ public class viewLogin extends javax.swing.JFrame {
             String Query = "insert INTO relatorio(vendedor) select(nome) from sellers where userID = '"+idTxt.getText()+"';";
             Statement Add = con.createStatement();
             Add.executeUpdate(Query);
-            JOptionPane.showMessageDialog(rootPane, "login registrado");
+            
             con.close();
                 
             }catch(SQLException ex){
