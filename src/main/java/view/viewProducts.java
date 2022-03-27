@@ -4,17 +4,16 @@
  */
 package view;
 
+import DAO.ProductsDAO;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
-import net.proteanit.sql.DbUtils;
+import modelo.Products;
+import modelo.productsTableModel;
+
 
 /**
  *
@@ -27,32 +26,25 @@ public class viewProducts extends javax.swing.JFrame {
      */
     public viewProducts() {
         initComponents();
-        selectProducts();
+        prodTable.setModel(getTableModelProducts());
         getCateg();
     }
     Connection con = null;
     Statement st = null;
     ResultSet rs = null;
-    public void selectProducts(){
-        try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ejpmarketdb","root","");
-            st = con.createStatement();
-            rs = st.executeQuery("select * from products");
-            prodTable.setModel(DbUtils.resultSetToTableModel(rs));
-        }catch(SQLException ex){
-            System.out.println("Ocorreu um erro ao acessar o banco de dados"+ex.getMessage());
-        }catch (ClassNotFoundException ex) {
-            System.out.println("Driver do banco de dados não localizado");
-        }finally{
-            if(con!=null){
-                try {
-                con.close();
-                
-                    } catch (SQLException ex) {
-                        Logger.getLogger(viewLogin.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }   }
+    private productsTableModel tm;
+    private productsTableModel p;
+    public productsTableModel getTableModelProducts() { 
+        ProductsDAO dados = new ProductsDAO(); 
+        tm = new productsTableModel(dados.getLista("SELECT * FROM products"));
+       
+        return tm;
+       }
+      
+       private productsTableModel montaGrid(String sql){   
+        ProductsDAO dados = new ProductsDAO();       
+        p = new productsTableModel(dados.getLista(sql));
+        return p;
     }
     public void getCateg(){
       try{
@@ -526,83 +518,80 @@ public class viewProducts extends javax.swing.JFrame {
         if(prodId.getText().isEmpty() || prodQuant.getText().isEmpty() || prodName.getText().isEmpty() || prodPreco.getText().isEmpty()){
           JOptionPane.showMessageDialog(rootPane, "Falta informações.");  
         }else{
-        try{
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ejpmarketdb","root","");
-                PreparedStatement add = con.prepareStatement("insert INTO products values(?,?,?,?,?)");
-                    add.setInt(1, Integer.valueOf(prodId.getText()));
-                    add.setString(2, prodName.getText());
-                    add.setInt(3, Integer.valueOf(prodQuant.getText()));
-                    add.setFloat(4, Float.valueOf(prodPreco.getText()));
-                    add.setString(5, categCombo.getSelectedItem().toString());
-                    
-                int row = add.executeUpdate();
-                selectProducts();
-                JOptionPane.showMessageDialog(rootPane, "Produto adicionado com sucesso.");
-                con.close();
-                
-            }catch(SQLException ex){
-                System.out.println("Ocorreu um erro ao acessar o banco de dados"+ex.getMessage());
-            } catch (ClassNotFoundException ex) {
-                System.out.println("Driver do banco de dados não localizado");
-            }finally{
-                if(con!=null){
-                    try {
-                        con.close();
-                    } catch (SQLException ex) {
-                        Logger.getLogger(viewLogin.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
+            Products p = new Products();
+            p.setProdID(Integer.valueOf(prodId.getText()));
+            p.setNome(prodName.getText());
+            p.setQuantid(Integer.valueOf(prodQuant.getText()));
+            p.setPreco(Float.valueOf(prodPreco.getText()));
+            p.setCategoria(categCombo.getSelectedItem().toString());
+            
+            ProductsDAO dados = new ProductsDAO();
+            dados.adiciona(p);
+            prodTable.setModel(getTableModelProducts());
+            JOptionPane.showMessageDialog(null, "Produto adicionado");
         }
-        }
+        prodId.setText("");
+        prodName.setText("");
+        prodQuant.setText("");
+        prodPreco.setText("");
+    
+        
     }//GEN-LAST:event_addBttnActionPerformed
 
     private void editBttnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editBttnMouseClicked
         if(prodId.getText().isEmpty() || prodQuant.getText().isEmpty() || prodName.getText().isEmpty() || prodPreco.getText().isEmpty()){
             JOptionPane.showMessageDialog(rootPane, "Informações faltando.");
-        }else{
-           try{
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ejpmarketdb","root","");
-                int pId = Integer.valueOf(prodId.getText());
-                String Query = "Update products set nome = '"+prodName.getText()+"', quantid = '"+Integer.valueOf(prodQuant.getText())+"', preco = '"+Float.valueOf(prodPreco.getText())+"', categoria = '"+categCombo.getSelectedItem().toString()+"' where prodID ='"+Integer.valueOf(prodId.getText())+"';";
-                Statement Add = con.createStatement();
-                Add.executeUpdate(Query);
-                selectProducts();
-                JOptionPane.showMessageDialog(rootPane, "Produto editado com sucesso.");
-            }catch(Exception e){
-                e.printStackTrace();
-            } 
+        }else {
+            
+            Products p = new Products();
+            p.setProdID(Integer.valueOf(prodId.getText()));
+            p.setNome(prodName.getText());
+            p.setQuantid(Integer.valueOf(prodQuant.getText()));
+            p.setPreco(Float.valueOf(prodPreco.getText()));
+            p.setCategoria(categCombo.getSelectedItem().toString());
+          
+            ProductsDAO dados = new ProductsDAO();
+            dados.editar(p);
+            prodTable.setModel(getTableModelProducts());
+            JOptionPane.showMessageDialog(null, "Produto editado com sucesso!");
         }
+        
+        prodId.setText("");
+        prodName.setText("");
+        prodQuant.setText("");
+        prodPreco.setText(""); 
     }//GEN-LAST:event_editBttnMouseClicked
 
     private void deleteBttnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteBttnMouseClicked
         if(prodId.getText().isEmpty() || prodQuant.getText().isEmpty() || prodName.getText().isEmpty() || prodPreco.getText().isEmpty()){
             JOptionPane.showMessageDialog(rootPane, "Escolha o produto para ser deletado");
-        }else{
-            try{
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ejpmarketdb","root","");
-                int pId = Integer.valueOf(prodId.getText());
-                String Query = "Delete from products where prodID ='"+pId+"';";
-                Statement Add = con.createStatement();
-                Add.executeUpdate(Query);
-                selectProducts();
-                JOptionPane.showMessageDialog(rootPane, "Produto deletado com sucesso.");
-            }catch(Exception e){
-                e.printStackTrace();
-            }
+        }else {
+         
+            Products p = new Products();
+            p.setProdID(Integer.valueOf(prodId.getText()));
+            p.setNome(prodName.getText());
+            p.setQuantid(Integer.valueOf(prodQuant.getText()));
+            p.setPreco(Float.valueOf(prodPreco.getText()));
+            p.setCategoria(categCombo.getSelectedItem().toString());
+           
+            ProductsDAO dados = new ProductsDAO();
+            dados.deleta(p);
+            prodTable.setModel(getTableModelProducts());
+            JOptionPane.showMessageDialog(null, "Produto deletado com sucesso!");
         }
+       
+        prodId.setText("");
+        prodName.setText("");
+        prodQuant.setText("");
+        prodPreco.setText(""); 
     }//GEN-LAST:event_deleteBttnMouseClicked
 
     private void prodTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_prodTableMouseClicked
-        DefaultTableModel model = (DefaultTableModel)prodTable.getModel();
-        int myIndex = prodTable.getSelectedRow();
-        prodId.setText(model.getValueAt(myIndex, 0).toString());
-        prodName.setText(model.getValueAt(myIndex, 1).toString());
-        prodQuant.setText(model.getValueAt(myIndex, 2).toString());
-        prodPreco.setText(model.getValueAt(myIndex, 3).toString());
-        categCombo.setSelectedItem(model.getValueAt(myIndex, 4).toString());
+       prodId.setText(prodTable.getValueAt(prodTable.getSelectedRow(), 0).toString());
+       prodName.setText(prodTable.getValueAt(prodTable.getSelectedRow(), 1).toString());
+       prodQuant.setText(prodTable.getValueAt(prodTable.getSelectedRow(), 2).toString());
+       prodPreco.setText(prodTable.getValueAt(prodTable.getSelectedRow(), 3).toString());
+       categCombo.setSelectedItem(prodTable.getValueAt(prodTable.getSelectedRow(), 4).toString());
     }//GEN-LAST:event_prodTableMouseClicked
 
     private void clearBttnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clearBttnMouseClicked

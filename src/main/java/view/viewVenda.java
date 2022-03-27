@@ -116,7 +116,7 @@ public class viewVenda extends javax.swing.JFrame {
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ejpmarketdb","root","");
-            String Query = "Update relatorio set valor = '"+total+"'where vendaId ='"+indVendas+"';";
+            String Query = "Update relatorio set valor = "+total+" where vendaId ="+indVendas+";";
             Statement Add = con.createStatement();
             Add.executeUpdate(Query);
             JOptionPane.showMessageDialog(rootPane, "Venda efetuada com sucesso!");
@@ -586,7 +586,7 @@ int i = 0;
             prodName.setText("");
             prodQuant.setText("");
             notaFiscal.setText("");
-            
+            totalTxt.setText("");
         }catch(Exception e){
             
         }

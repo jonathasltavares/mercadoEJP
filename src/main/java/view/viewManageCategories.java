@@ -4,17 +4,15 @@
  */
 package view;
 
+import DAO.CategoriesDAO;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
-import net.proteanit.sql.DbUtils;
+import modelo.Categories;
+import modelo.categoriesTableModel;
 
 /**
  *
@@ -27,33 +25,26 @@ public class viewManageCategories extends javax.swing.JFrame {
      */
     public viewManageCategories() {
         initComponents();
-        selectCategories();
+        categoriesTable.setModel(getTableModelCategories());
         
         
     }
 Connection con = null;
     Statement st = null;
     ResultSet rs = null;
-    public void selectCategories(){
-        try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ejpmarketdb","root","");
-            st = con.createStatement();
-            rs = st.executeQuery("select * from categories");
-            categoriesTable.setModel(DbUtils.resultSetToTableModel(rs));
-        }catch(SQLException ex){
-            System.out.println("Ocorreu um erro ao acessar o banco de dados"+ex.getMessage());
-        }catch (ClassNotFoundException ex) {
-            System.out.println("Driver do banco de dados não localizado");
-        }finally{
-            if(con!=null){
-                try {
-                con.close();
-                
-                    } catch (SQLException ex) {
-                        Logger.getLogger(viewLogin.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }   }
+    private categoriesTableModel tm;
+    private categoriesTableModel c;
+    public categoriesTableModel getTableModelCategories() { 
+        CategoriesDAO dados = new CategoriesDAO(); 
+        tm = new categoriesTableModel(dados.getLista("SELECT * FROM categories"));
+       
+        return tm;
+       }
+      
+       private categoriesTableModel montaGrid(String sql){   
+        CategoriesDAO dados = new CategoriesDAO();       
+        c = new categoriesTableModel(dados.getLista(sql));
+        return c;
     }
  
     /**
@@ -405,20 +396,21 @@ Connection con = null;
     private void deleteBttnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBttnActionPerformed
         if(catId.getText().isEmpty() || catName.getText().isEmpty() || catDescr.getText().isEmpty()){
             JOptionPane.showMessageDialog(rootPane, "Escolha a categoria para ser deletada");
-        }else{
-            try{
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ejpmarketdb","root","");
-                int cId = Integer.valueOf(catId.getText());
-                String Query = "Delete from categories where catID ='"+cId+"';";
-                Statement Add = con.createStatement();
-                Add.executeUpdate(Query);
-                selectCategories();
-                JOptionPane.showMessageDialog(rootPane, "Categoria deletada com sucesso.");
-            }catch(Exception e){
-                e.printStackTrace();
-            }
+        }else {
+         
+             Categories c = new Categories();
+            c.setCatId(Integer.valueOf(catId.getText()));
+            c.setNome(catName.getText());
+            c.setDescri(catDescr.getText());
+           
+            CategoriesDAO dados = new CategoriesDAO();
+            dados.deleta(c);
+            categoriesTable.setModel(getTableModelCategories());
+            JOptionPane.showMessageDialog(null, "Categoria removida");
         }
+        catId.setText("");
+        catName.setText("");
+        catDescr.setText("");
     }//GEN-LAST:event_deleteBttnActionPerformed
 
     private void clearBttnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBttnActionPerformed
@@ -455,61 +447,49 @@ Connection con = null;
     private void addBttnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addBttnMouseClicked
         if(catId.getText().isEmpty() || catName.getText().isEmpty() || catDescr.getText().isEmpty()){
           JOptionPane.showMessageDialog(rootPane, "Falta informações.");  
+        }else{
+            Categories c = new Categories();
+            c.setCatId(Integer.valueOf(catId.getText()));
+            c.setNome(catName.getText());
+            c.setDescri(catDescr.getText());
+            
+            
+            CategoriesDAO dados = new CategoriesDAO();
+            dados.adiciona(c);
+            categoriesTable.setModel(getTableModelCategories());
+            JOptionPane.showMessageDialog(null, "Categoria adicionada");
         }
-        try{
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ejpmarketdb","root","");
-                PreparedStatement add = con.prepareStatement("insert INTO categories values(?,?,?)");
-                    add.setInt(1, Integer.valueOf(catId.getText()));
-                    add.setString(2, catName.getText());
-                    add.setString(3, catDescr.getText());
-                    
-                    
-                int row = add.executeUpdate();
-                selectCategories();
-                JOptionPane.showMessageDialog(rootPane, "Categoria adicionada com sucesso.");
-                con.close();
-                
-            }catch(SQLException ex){
-                System.out.println("Ocorreu um erro ao acessar o banco de dados"+ex.getMessage());
-            } catch (ClassNotFoundException ex) {
-                System.out.println("Driver do banco de dados não localizado");
-            }finally{
-                if(con!=null){
-                    try {
-                        con.close();
-                    } catch (SQLException ex) {
-                        Logger.getLogger(viewLogin.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-        }
+        catId.setText("");
+        catName.setText("");
+        catDescr.setText("");
+        
     }//GEN-LAST:event_addBttnMouseClicked
 
     private void editBttnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editBttnMouseClicked
         if(catId.getText().isEmpty() || catName.getText().isEmpty() || catDescr.getText().isEmpty()){
             JOptionPane.showMessageDialog(rootPane, "Informações faltando.");
-        }else{
-           try{
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ejpmarketdb","root","");
-                int cId = Integer.valueOf(catId.getText());
-                String Query = "Update categories set nome = '"+catName.getText()+"', descri = '"+catDescr.getText()+"' where catId ='"+Integer.valueOf(catId.getText())+"';";
-                Statement Add = con.createStatement();
-                Add.executeUpdate(Query);
-                selectCategories();
-                JOptionPane.showMessageDialog(rootPane, "Categoria editada com sucesso.");
-            }catch(Exception e){
-                e.printStackTrace();
-            } 
+        }else {
+            
+            Categories c = new Categories();
+            c.setCatId(Integer.valueOf(catId.getText()));
+            c.setNome(catName.getText());
+            c.setDescri(catDescr.getText());
+          
+            CategoriesDAO dados = new CategoriesDAO();
+            dados.editar(c);
+            categoriesTable.setModel(getTableModelCategories());
+            JOptionPane.showMessageDialog(null, "Categoria editada");
         }
+        
+        catId.setText("");
+        catName.setText("");
+        catDescr.setText("");
     }//GEN-LAST:event_editBttnMouseClicked
 
     private void categoriesTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_categoriesTableMouseClicked
-        DefaultTableModel model = (DefaultTableModel)categoriesTable.getModel();
-        int myIndex = categoriesTable.getSelectedRow();
-        catId.setText(model.getValueAt(myIndex, 0).toString());
-        catName.setText(model.getValueAt(myIndex, 1).toString());
-        catDescr.setText(model.getValueAt(myIndex, 2).toString());
+        catId.setText(categoriesTable.getValueAt(categoriesTable.getSelectedRow(), 0).toString());
+        catName.setText(categoriesTable.getValueAt(categoriesTable.getSelectedRow(), 1).toString());
+        catDescr.setText(categoriesTable.getValueAt(categoriesTable.getSelectedRow(), 2).toString());
         
     }//GEN-LAST:event_categoriesTableMouseClicked
 
