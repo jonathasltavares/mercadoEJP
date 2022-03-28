@@ -199,7 +199,7 @@
             <Component class="javax.swing.JLabel" name="jLabel8">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\Jonathas\Downloads\shopping-cart (1).png"/>
+                  <Image iconType="3" name="/imagens/shopping-cart (1).png"/>
                 </Property>
               </Properties>
             </Component>
@@ -317,7 +317,7 @@
         <Component class="javax.swing.JLabel" name="jLabel9">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\Jonathas\Downloads\login.png"/>
+              <Image iconType="3" name="/imagens/login.png"/>
             </Property>
           </Properties>
         </Component>

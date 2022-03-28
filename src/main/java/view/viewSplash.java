@@ -37,7 +37,7 @@ public class viewSplash extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(0, 51, 51));
 
-        jLabel8.setIcon(new javax.swing.ImageIcon("C:\\Users\\Jonathas\\Downloads\\store (1).png")); // NOI18N
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/store (2).png"))); // NOI18N
 
         jLabel6.setBackground(new java.awt.Color(153, 153, 153));
         jLabel6.setFont(new java.awt.Font("Century Gothic", 1, 25)); // NOI18N
@@ -57,27 +57,27 @@ public class viewSplash extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(MyProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(323, 323, 323)
+                .addComponent(Percentage)
+                .addContainerGap(323, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(263, Short.MAX_VALUE)
-                .addComponent(jLabel6)
-                .addGap(261, 261, 261))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(298, 298, 298)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addComponent(Percentage)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel8))
+                    .addComponent(jLabel6))
+                .addGap(261, 261, 261))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(38, 38, 38)
                 .addComponent(jLabel6)
-                .addGap(30, 30, 30)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addComponent(Percentage)
                 .addGap(18, 18, 18)
                 .addComponent(MyProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))

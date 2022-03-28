@@ -269,7 +269,7 @@ Connection con = null;
         jLabel12.setFont(new java.awt.Font("Century Gothic", 1, 23)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel12.setIcon(new javax.swing.ImageIcon("C:\\Users\\Jonathas\\Downloads\\logout (2).png")); // NOI18N
+        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/logout (2).png"))); // NOI18N
         jLabel12.setText("Logout");
         jLabel12.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel12.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);

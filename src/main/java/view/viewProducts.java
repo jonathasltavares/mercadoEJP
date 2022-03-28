@@ -380,7 +380,7 @@ public class viewProducts extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Century Gothic", 1, 23)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel10.setIcon(new javax.swing.ImageIcon("C:\\Users\\Jonathas\\Downloads\\logout (2).png")); // NOI18N
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/logout (2).png"))); // NOI18N
         jLabel10.setText("Logout");
         jLabel10.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel10.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);

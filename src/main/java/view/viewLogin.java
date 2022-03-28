@@ -97,7 +97,7 @@ public class viewLogin extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("MARKET");
 
-        jLabel8.setIcon(new javax.swing.ImageIcon("C:\\Users\\Jonathas\\Downloads\\shopping-cart (1).png")); // NOI18N
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/shopping-cart (1).png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -172,7 +172,7 @@ public class viewLogin extends javax.swing.JFrame {
             }
         });
 
-        jLabel9.setIcon(new javax.swing.ImageIcon("C:\\Users\\Jonathas\\Downloads\\login.png")); // NOI18N
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/login.png"))); // NOI18N
 
         jLabel7.setBackground(new java.awt.Color(0, 51, 51));
         jLabel7.setFont(new java.awt.Font("Century Gothic", 1, 20)); // NOI18N
